@@ -1,2 +1,7 @@
 import { Zap } from 'lucide-react'
-export default function Logo({compact=false}:{compact?:boolean}){return <a href="#inicio" aria-label="WR Soluções Elétricas" className="group flex items-center gap-3"><span className="relative flex h-11 w-11 items-center justify-center border border-gold/70 font-display text-lg font-bold tracking-[-.08em] text-white"><span>WR</span><Zap className="absolute -bottom-2 -right-2 h-4 w-4 fill-gold text-gold"/></span>{!compact&&<span className="leading-tight"><b className="block font-display text-[12px] uppercase tracking-[.18em]">Soluções</b><span className="font-display text-[9px] uppercase tracking-[.28em] text-gold">Elétricas</span></span>}</a>}
+export default function Logo({compact=false}:{compact?:boolean}) {
+ return <a href="#inicio" aria-label="WP Soluções Elétricas" className="wp-logo">
+ <span className="wp-monogram"><span>W</span><Zap aria-hidden="true"/><span>P</span></span>
+ {!compact&&<><strong>SOLUÇÕES ELÉTRICAS</strong><small>SEGURANÇA · QUALIDADE · CONFIANÇA</small></>}
+ </a>
+}
