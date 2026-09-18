@@ -24,6 +24,7 @@ h2{font-size:36px}.eyebrow{font-size:16px;color:#8b8b8b;text-transform:uppercase
 .wp-monogram span:last-child{color:var(--gold)}
 .wp-logo strong{font-size:14px;line-height:1.2}.wp-logo small{font-size:5px;color:#aaa;margin-top:5px}
 header{padding:16px 0!important}header .shell{gap:20px}header nav a{font-size:12px!important;text-transform:none!important;color:#fff!important}
+@media(max-width:1023px){header .shell>a.gold-btn{display:none}}
 .wp-hero{position:relative;min-height:900px;overflow:hidden;background:#050505}
 .hero-photo{object-fit:cover;object-position:center center}
 .hero-inner{position:relative;min-height:900px}
