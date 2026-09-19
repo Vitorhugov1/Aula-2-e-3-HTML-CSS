@@ -1,3 +1,13 @@
-import { Facebook,Instagram,MessageCircle } from 'lucide-react'
-const links=[['Início','#inicio'],['Serviços','#servicos'],['Projetos','#projetos'],['Sobre','#sobre'],['Depoimentos','#depoimentos'],['Contato','#contato']]
-export default function Footer(){return <footer className="border-t border-white/10 bg-[#050606] py-5"><div className="shell flex flex-col items-center justify-between gap-4 text-[7px] text-white/40 md:flex-row"><p>© 2026 WP Soluções Elétricas. Todos os direitos reservados.</p><nav className="flex flex-wrap justify-center gap-5">{links.map(([l,h])=><a key={l} href={h} className="hover:text-gold">{l}</a>)}</nav><div className="flex gap-4"><Instagram size={14}/><Facebook size={14}/><a href="https://wa.me/5588998007589"><MessageCircle size={14}/></a></div></div></footer>}
+import { Instagram, MessageCircle } from 'lucide-react'
+
+export default function Footer() {
+ return <footer className="border-t border-white/10 bg-[#050606] py-5">
+  <div className="shell flex flex-col items-center justify-between gap-4 text-[7px] text-white/40 md:flex-row">
+   <p>© 2026 WP Soluções Elétricas. Todos os direitos reservados.</p>
+   <div className="flex items-center gap-4">
+    <a href="https://www.instagram.com/wagner_wpsolucoeseletricas/" target="_blank" rel="noopener noreferrer" aria-label="Instagram da WP Soluções Elétricas" title="Instagram" className="inline-flex p-2 transition-colors hover:text-gold"><Instagram size={18} /></a>
+    <a href="https://wa.me/5588998007589" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp da WP Soluções Elétricas" title="WhatsApp" className="inline-flex p-2 transition-colors hover:text-gold"><MessageCircle size={18} /></a>
+   </div>
+  </div>
+ </footer>
+}
