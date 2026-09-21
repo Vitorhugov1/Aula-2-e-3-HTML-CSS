@@ -1,6 +1,8 @@
 'use client'
 import { useEffect, useRef, useState } from 'react'
 import { ArrowLeft, ArrowRight, X } from 'lucide-react'
+import { motion, useReducedMotion } from 'framer-motion'
+import Reveal from './Reveal'
 
 const projects = ['Iluminação residencial', 'Iluminação comercial', 'Quadros elétricos', 'Iluminação externa'] as const
 const lastProject = projects.length - 1
@@ -13,6 +15,7 @@ function ProjectPhoto({ index }: { index: number }) {
 }
 
 export default function Projects() {
+ const reduceMotion = useReducedMotion()
  const scroller = useRef<HTMLDivElement>(null)
  const dialog = useRef<HTMLDialogElement>(null)
  const trigger = useRef<HTMLButtonElement | null>(null)
@@ -66,13 +69,13 @@ export default function Projects() {
 
  return <section id="projetos" className="wp-projects">
   <div className="shell">
-   <p className="eyebrow">PROJETOS REALIZADOS</p>
+   <Reveal><p className="eyebrow">PROJETOS REALIZADOS</p>
    <h2>QUALIDADE QUE<br />TRANSFORMA AMBIENTES</h2>
-   <span className="gold-rule" />
+   <span className="gold-rule" /></Reveal>
    <div className="projects-wrap">
     <button className="carousel-arrow previous" aria-label="Projeto anterior" disabled={!bounds.previous} onClick={() => slide(-1)}><ArrowLeft /></button>
     <div className="projects-track" ref={scroller}>
-     {projects.map((title, index) => <button key={title} aria-label={'Ampliar ' + title} onClick={e => show(index, e.currentTarget)}><ProjectPhoto index={index} /></button>)}
+     {projects.map((title, index) => <motion.button key={title} aria-label={'Ampliar ' + title} onClick={e => show(index, e.currentTarget)} initial={reduceMotion?false:{opacity:0,y:28,scale:.96}} whileInView={{opacity:1,y:0,scale:1}} viewport={{once:true,amount:.2}} transition={{duration:.7,delay:reduceMotion?0:index*.08,ease:[.22,1,.36,1]}} whileHover={reduceMotion?undefined:{y:-6}}><ProjectPhoto index={index} /></motion.button>)}
     </div>
     <button className="carousel-arrow next" aria-label="Próximo projeto" disabled={!bounds.next} onClick={() => slide(1)}><ArrowRight /></button>
    </div>
