@@ -4,7 +4,7 @@
 :root{color-scheme:dark;--gold:#f5c518;--ink:#050505}
 *{box-sizing:border-box;letter-spacing:0!important}
 html{scroll-behavior:smooth;scroll-padding-top:105px}
-body{margin:0;background:#050505;color:#fff;font-family:var(--font-inter),Arial,sans-serif}
+body{--font-inter:Inter,Segoe UI,Arial,sans-serif;--font-space:"Arial Narrow",Inter,Segoe UI,Arial,sans-serif;--font-hand:"Segoe Print","Comic Sans MS",cursive;margin:0;background:#050505;color:#fff;font-family:var(--font-inter),Arial,sans-serif}
 h1,h2,h3,p{margin:0}button,a{-webkit-tap-highlight-color:transparent}button{cursor:pointer}a{text-decoration:none;color:inherit}
 button:focus-visible,a:focus-visible{outline:2px solid var(--gold);outline-offset:5px}
 ::selection{background:var(--gold);color:#050505}
