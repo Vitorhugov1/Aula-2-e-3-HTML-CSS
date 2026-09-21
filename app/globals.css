@@ -17,12 +17,10 @@ h2{font-size:36px}.eyebrow{font-size:16px;color:#8b8b8b;text-transform:uppercase
 .gold-btn{background:var(--gold);color:#080808;padding:14px 25px}
 .outline-btn{border:1px solid var(--gold);color:var(--gold);padding:10px 18px;background:transparent}
 .gold-btn:hover{background:#ffe373;transform:translateY(-2px)}.outline-btn:hover{background:var(--gold);color:#080808}
-.wp-logo{display:flex;flex-direction:column;align-items:center;width:194px;flex-shrink:0;position:relative;transform:rotate(-3deg)}
-.wp-logo:after{content:"";height:19px;position:absolute;left:9px;right:8px;bottom:-9px;border-bottom:2px solid var(--gold);border-radius:50%}
-.wp-monogram{height:59px;display:flex;align-items:center;font-family:Arial,sans-serif;font-style:italic;font-weight:900;font-size:65px;line-height:1}
-.wp-monogram svg{width:27px;height:40px;fill:var(--gold);color:var(--gold);margin:0 -13px;z-index:1;transform:rotate(12deg)}
-.wp-monogram span:last-child{color:var(--gold)}
-.wp-logo strong{font-size:14px;line-height:1.2}.wp-logo small{font-size:5px;color:#aaa;margin-top:5px}
+.wp-logo{display:block;width:154px;flex-shrink:0;position:relative}
+.wp-logo img{display:block;width:100%;height:auto}
+header .wp-logo{width:116px}
+#contato .wp-logo{width:194px}
 header{padding:16px 0!important}header .shell{gap:20px}header nav a{font-size:12px!important;text-transform:none!important;color:#fff!important}
 @media(max-width:1023px){header .shell>a.gold-btn{display:none}}
 .wp-hero{position:relative;min-height:900px;overflow:hidden;background:#050505}
@@ -51,7 +49,7 @@ header{padding:16px 0!important}header .shell{gap:20px}header nav a{font-size:12
 .service-card{position:relative;border:1px solid #363636;border-radius:7px;overflow:hidden;background:#080808}
 .reference-photo{display:block;position:relative;overflow:hidden;width:100%;isolation:isolate}
 .reference-photo img{position:absolute;max-width:none;width:var(--photo-width);height:auto;left:var(--photo-left);top:0;transform:translateY(var(--photo-top))}
-.service-card>.reference-photo:after{content:"";position:absolute;inset:60% 0 0;background:linear-gradient(transparent,#080808)}
+.service-card>.service-photo:after{content:"";position:absolute;inset:60% 0 0;background:linear-gradient(transparent,#080808)}
 .service-content{padding:0 24px 22px;position:relative;margin-top:0;z-index:1}
 .service-icon{display:grid;place-items:center;width:44px;height:44px;border-radius:50%;background:var(--gold);color:#050505;margin-bottom:10px}
 .service-icon svg{width:29px;height:29px}
@@ -103,3 +101,7 @@ footer .shell{padding-bottom:45px}footer nav{gap:14px!important;font-size:10px}
 }
 @media(max-width:360px){.hero-copy h1{font-size:36px}.hero-specialties span{font-size:8px}.services-grid{gap:10px}.service-content{padding-left:10px;padding-right:10px}.service-content h3{font-size:14px}.service-content p{font-size:11px}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{animation:none!important;transition:none!important}}
+.service-photo{display:block;position:relative;overflow:hidden;aspect-ratio:4/3;width:100%}
+.service-photo img{position:absolute;width:200%;height:200%;max-width:none}
+.about-photo img{width:100%;height:100%;object-fit:cover;object-position:center}
+@media(max-width:768px){header .wp-logo{width:104px}#contato .wp-logo{width:194px}}
