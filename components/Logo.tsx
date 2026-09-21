@@ -1,7 +1,5 @@
-import { Zap } from 'lucide-react'
-export default function Logo({compact=false}:{compact?:boolean}) {
+export default function Logo() {
  return <a href="#inicio" aria-label="WP Soluções Elétricas" className="wp-logo">
- <span className="wp-monogram"><span>W</span><Zap aria-hidden="true"/><span>P</span></span>
- {!compact&&<><strong>SOLUÇÕES ELÉTRICAS</strong><small>SEGURANÇA · QUALIDADE · CONFIANÇA</small></>}
+  <img src="/images/logo-wp-original.jpeg" alt="WP Soluções Elétricas: segurança, qualidade e confiança" width={1342} height={1172}/>
  </a>
 }
