@@ -75,7 +75,7 @@ export default function Projects() {
    <div className="projects-wrap">
     <button className="carousel-arrow previous" aria-label="Projeto anterior" disabled={!bounds.previous} onClick={() => slide(-1)}><ArrowLeft /></button>
     <div className="projects-track" ref={scroller}>
-     {projects.map((title, index) => <motion.button key={title} aria-label={'Ampliar ' + title} onClick={e => show(index, e.currentTarget)} initial={reduceMotion?false:{opacity:0,y:28,scale:.96}} whileInView={{opacity:1,y:0,scale:1}} viewport={{once:true,amount:.2}} transition={{duration:.7,delay:reduceMotion?0:index*.08,ease:[.22,1,.36,1]}} whileHover={reduceMotion?undefined:{y:-6}}><ProjectPhoto index={index} /></motion.button>)}
+     {projects.map((title, index) => <motion.button key={title} aria-label={'Ampliar ' + title} onClick={e => show(index, e.currentTarget)} initial={reduceMotion?false:{opacity:0,y:28,scale:.96}} whileInView={{opacity:1,y:0,scale:1}} viewport={{once:true,amount:.5}} transition={{duration:.85,delay:reduceMotion?0:index*.1,ease:[.22,1,.36,1]}} whileHover={reduceMotion?undefined:{y:-6}}><ProjectPhoto index={index} /></motion.button>)}
     </div>
     <button className="carousel-arrow next" aria-label="Próximo projeto" disabled={!bounds.next} onClick={() => slide(1)}><ArrowRight /></button>
    </div>
