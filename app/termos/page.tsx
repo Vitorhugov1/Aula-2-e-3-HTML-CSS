@@ -1,9 +1,10 @@
 import type { Metadata } from 'next'
+import Link from 'next/link'
 
 export const metadata: Metadata = { title:'Termos de Uso | WP Soluções Elétricas',description:'Condições de uso do site da WP Soluções Elétricas.',alternates:{canonical:'/termos'} }
 
 export default function TermsPage(){return <main className="legal-page"><article className="legal-content">
- <a href="/" className="legal-back">← Voltar ao site</a>
+ <Link href="/" className="legal-back">← Voltar ao site</Link>
  <p className="eyebrow">INFORMAÇÕES LEGAIS</p><h1>Termos de Uso</h1><p className="legal-date">Última atualização: 21 de setembro de 2026.</p>
  <p>Ao acessar este site, você concorda com estes termos. Caso não concorde, interrompa a navegação.</p>
  <h2>1. Finalidade do site</h2><p>A página apresenta a WP Soluções Elétricas, seus serviços e canais de contato. O conteúdo é informativo e não substitui avaliação técnica, vistoria, proposta comercial ou contrato.</p>
