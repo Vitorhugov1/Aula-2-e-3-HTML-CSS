@@ -1,11 +1,5 @@
 import type { Metadata } from 'next'
-import { Inter, Space_Grotesk, Caveat } from 'next/font/google'
 import './globals.css'
-
-const inter = Inter({ subsets:['latin'], variable:'--font-inter', display:'swap' })
-const space = Space_Grotesk({ subsets:['latin'], variable:'--font-space', display:'swap' })
-
-const hand = Caveat({subsets:['latin'],variable:'--font-hand',display:'swap'})
 
 export const metadata: Metadata = {
   title:'WP Soluções Elétricas | Instalações, Automação e Iluminação',
@@ -14,5 +8,5 @@ export const metadata: Metadata = {
 }
 
 export default function RootLayout({children}:{children:React.ReactNode}) {
-  return <html lang="pt-BR" className="scroll-smooth"><body className={`${inter.variable} ${space.variable} ${hand.variable}`}>{children}</body></html>
+  return <html lang="pt-BR" className="scroll-smooth"><body>{children}</body></html>
 }
