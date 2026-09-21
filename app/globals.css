@@ -19,7 +19,7 @@ h2{font-size:36px}.eyebrow{font-size:16px;color:#8b8b8b;text-transform:uppercase
 .gold-btn:hover{background:#ffe373;transform:translateY(-2px)}.outline-btn:hover{background:var(--gold);color:#080808}
 .wp-logo{display:block;width:154px;flex-shrink:0;position:relative}
 .wp-logo img{display:block;width:100%;height:auto}
-header .wp-logo{width:116px}
+header .wp-logo{width:150px}
 #contato .wp-logo{width:194px}
 header{padding:16px 0!important}header .shell{gap:20px}header nav a{font-size:12px!important;text-transform:none!important;color:#fff!important}
 @media(max-width:1023px){header .shell>a.gold-btn{display:none}}
@@ -104,4 +104,4 @@ footer .shell{padding-bottom:45px}footer nav{gap:14px!important;font-size:10px}
 .service-photo{display:block;position:relative;overflow:hidden;aspect-ratio:4/3;width:100%}
 .service-photo img{position:absolute;width:200%;height:200%;max-width:none}
 .about-photo img{width:100%;height:100%;object-fit:cover;object-position:center}
-@media(max-width:768px){header .wp-logo{width:104px}#contato .wp-logo{width:194px}}
+@media(max-width:768px){header .wp-logo{width:124px}#contato .wp-logo{width:194px}}
