@@ -8,5 +8,11 @@ import Testimonials from '@/components/Testimonials'
 import FinalCTA from '@/components/FinalCTA'
 import Footer from '@/components/Footer'
 import WhatsAppFloating from '@/components/WhatsAppFloating'
+import { getPublicContent } from '@/lib/content'
 
-export default function Home(){return <main className="overflow-hidden"><Header/><Hero/><Stats/><Services/><About/><Projects/><Testimonials/><FinalCTA/><Footer/><WhatsAppFloating/></main>}
+export const dynamic = 'force-dynamic'
+
+export default async function Home(){
+ const {services,settings}=await getPublicContent()
+ return <main className="overflow-hidden"><Header settings={settings}/><Hero settings={settings}/><Stats/><Services services={services} settings={settings}/><About/><Projects/><Testimonials/><FinalCTA settings={settings}/><Footer settings={settings}/><WhatsAppFloating settings={settings}/></main>
+}

@@ -103,6 +103,8 @@ footer .shell{padding-bottom:45px}footer nav{gap:14px!important;font-size:10px}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{animation:none!important;transition:none!important}}
 .service-photo{display:block;position:relative;overflow:hidden;aspect-ratio:4/3;width:100%}
 .service-photo img{position:absolute;width:200%;height:200%;max-width:none;transition:transform .75s cubic-bezier(.22,1,.36,1),filter .45s ease}
+.service-photo img.service-uploaded-image{inset:0;width:100%;height:100%;object-fit:cover}
+.contact-details{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:6px 14px;margin-top:10px}.contact-details a,.contact-details span{display:inline-flex;align-items:center;gap:5px;color:#aaa;font-size:10px}.contact-details svg{width:12px;height:12px;color:var(--gold)}
 .about-photo img{width:100%;height:100%;object-fit:cover;object-position:center}
 @media(max-width:768px){header .wp-logo{width:124px}#contato .wp-logo{width:194px}}
 @media(hover:hover) and (pointer:fine){
