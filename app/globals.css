@@ -46,7 +46,7 @@ header{padding:16px 0!important}header .shell{gap:20px}header nav a{font-size:12
 .section-heading{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;gap:25px}
 .section-heading>p{font-size:17px;line-height:1.3;max-width:305px}
 .services-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:24px}
-.service-card{position:relative;border:1px solid #363636;border-radius:7px;overflow:hidden;background:#080808}
+.service-reveal{min-width:0}.service-card{position:relative;height:100%;border:1px solid #363636;border-radius:7px;overflow:hidden;background:#080808;transition:transform .45s cubic-bezier(.22,1,.36,1),border-color .35s ease,box-shadow .45s ease}
 .reference-photo{display:block;position:relative;overflow:hidden;width:100%;isolation:isolate}
 .reference-photo img{position:absolute;max-width:none;width:var(--photo-width);height:auto;left:var(--photo-left);top:0;transform:translateY(var(--photo-top))}
 .service-card>.service-photo:after{content:"";position:absolute;inset:60% 0 0;background:linear-gradient(transparent,#080808)}
@@ -102,6 +102,14 @@ footer .shell{padding-bottom:45px}footer nav{gap:14px!important;font-size:10px}
 @media(max-width:360px){.hero-copy h1{font-size:36px}.hero-specialties span{font-size:8px}.services-grid{gap:10px}.service-content{padding-left:10px;padding-right:10px}.service-content h3{font-size:14px}.service-content p{font-size:11px}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{animation:none!important;transition:none!important}}
 .service-photo{display:block;position:relative;overflow:hidden;aspect-ratio:4/3;width:100%}
-.service-photo img{position:absolute;width:200%;height:200%;max-width:none}
+.service-photo img{position:absolute;width:200%;height:200%;max-width:none;transition:transform .75s cubic-bezier(.22,1,.36,1),filter .45s ease}
 .about-photo img{width:100%;height:100%;object-fit:cover;object-position:center}
 @media(max-width:768px){header .wp-logo{width:124px}#contato .wp-logo{width:194px}}
+@media(hover:hover) and (pointer:fine){
+.service-card:hover{transform:translateY(-8px);border-color:#f5c51880;box-shadow:0 18px 45px #0009,0 0 0 1px #f5c51818}.service-card:hover .service-photo img{transform:scale(1.045);filter:saturate(1.08)}
+.service-card:hover .service-icon{transform:rotate(-5deg) scale(1.08)}.service-icon{transition:transform .4s cubic-bezier(.22,1,.36,1)}
+.projects-track>button{transition:border-color .3s ease,box-shadow .45s ease}.projects-track>button:hover{box-shadow:0 16px 36px #000a}.projects-track>button .project-photo img{transition:transform .7s cubic-bezier(.22,1,.36,1)}.projects-track>button:hover .project-photo img{transform:scale(1.045)}
+.testimonial-card{transition:transform .45s cubic-bezier(.22,1,.36,1),border-color .35s ease,background .35s ease,box-shadow .45s ease}.testimonial-card:hover{transform:translateY(-7px);border-color:#f5c51866;background:#111212;box-shadow:0 16px 36px #0008}
+.stat-item{transition:background .35s ease}.stat-item:hover{background:#f5c5180a}.stat-item svg{transition:transform .4s cubic-bezier(.22,1,.36,1)}.stat-item:hover svg{transform:scale(1.12) rotate(-4deg)}
+.about-value{transition:transform .4s cubic-bezier(.22,1,.36,1)}.about-value:hover{transform:translateX(8px)!important}
+}
