@@ -1,1 +1,35 @@
-{"name":"wp-solucoes-eletricas","version":"1.0.0","private":true,"scripts":{"dev":"next dev","build":"next build","start":"next start"},"dependencies":{"framer-motion":"^12.23.12","lucide-react":"^0.468.0","next":"15.5.24","react":"19.1.1","react-dom":"19.1.1"},"devDependencies":{"@types/node":"^20.0.0","@types/react":"^19.1.0","@types/react-dom":"^19.1.0","autoprefixer":"^10.4.0","postcss":"^8.4.0","tailwindcss":"^3.4.0","typescript":"^5.4.0"}}
+{
+  "name": "wp-solucoes-eletricas",
+  "version": "1.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit",
+    "test": "node --test tests/*.test.mjs",
+    "seed:supabase": "node --env-file=.env.seed scripts/seed-service-images.mjs"
+  },
+  "dependencies": {
+    "@supabase/ssr": "^0.7.0",
+    "@supabase/supabase-js": "^2.57.4",
+    "framer-motion": "^12.23.12",
+    "lucide-react": "^0.468.0",
+    "next": "15.5.24",
+    "react": "19.1.1",
+    "react-dom": "19.1.1"
+  },
+  "devDependencies": {
+    "@eslint/eslintrc": "^3.0.0",
+    "@types/node": "^20.0.0",
+    "@types/react": "^19.1.0",
+    "@types/react-dom": "^19.1.0",
+    "autoprefixer": "^10.4.0",
+    "eslint": "^9.0.0",
+    "eslint-config-next": "15.5.24",
+    "postcss": "^8.4.0",
+    "tailwindcss": "^3.4.0",
+    "typescript": "^5.4.0"
+  }
+}
