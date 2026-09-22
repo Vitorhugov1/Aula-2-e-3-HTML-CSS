@@ -38,10 +38,10 @@ export default function LoginForm({ configured, unauthorized }: { configured: bo
     }
   }
 
-  async function recoverPassword() {
+  async function recoverPassword(firstAccess = false) {
     if (!configured) return
     if (!email) {
-      setMessage('Digite seu e-mail para recuperar a senha.')
+      setMessage('Digite seu e-mail para receber o link de criação de senha.')
       return
     }
     setLoading(true)
@@ -53,7 +53,9 @@ export default function LoginForm({ configured, unauthorized }: { configured: bo
       })
       if (error) throw error
       setSuccess(true)
-      setMessage('Enviamos as instruções de recuperação para o seu e-mail.')
+      setMessage(firstAccess
+        ? 'Enviamos o link para você criar sua senha.'
+        : 'Enviamos as instruções de recuperação para o seu e-mail.')
     } catch {
       setMessage('Não foi possível enviar o e-mail. Confira o endereço e tente novamente.')
     } finally {
@@ -67,6 +69,7 @@ export default function LoginForm({ configured, unauthorized }: { configured: bo
     <label>Senha<span className="admin-password"><input type={showPassword ? 'text' : 'password'} value={password} onChange={(event) => setPassword(event.target.value)} autoComplete="current-password" required disabled={!configured || loading} /><button type="button" onClick={() => setShowPassword((value) => !value)} aria-label={showPassword ? 'Ocultar senha' : 'Mostrar senha'}>{showPassword ? <EyeOff /> : <Eye />}</button></span></label>
     {message && <p className={`admin-alert ${success ? 'success' : 'error'}`} role="status">{message}</p>}
     <button className="admin-primary" type="submit" disabled={!configured || loading}>{loading ? <LoaderCircle className="admin-spin" /> : <LogIn />}Entrar</button>
-    <button className="admin-link-button" type="button" onClick={recoverPassword} disabled={!configured || loading}>Esqueci minha senha</button>
+    <button className="admin-link-button" type="button" onClick={() => recoverPassword(true)} disabled={!configured || loading}>Primeiro acesso: criar senha</button>
+    <button className="admin-link-button" type="button" onClick={() => recoverPassword(false)} disabled={!configured || loading}>Esqueci minha senha</button>
   </form>
 }
