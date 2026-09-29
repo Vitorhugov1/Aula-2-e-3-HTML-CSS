@@ -28,6 +28,7 @@ export async function updateSession(request: NextRequest) {
   const { data: { user } } = await supabase.auth.getUser()
   const isPublicAdminRoute = request.nextUrl.pathname === '/admin/login'
     || request.nextUrl.pathname === '/admin/auth/callback'
+    || request.nextUrl.pathname === '/admin/auth/recovery'
 
   if (request.nextUrl.pathname.startsWith('/admin') && !user && !isPublicAdminRoute) {
     const url = request.nextUrl.clone()
