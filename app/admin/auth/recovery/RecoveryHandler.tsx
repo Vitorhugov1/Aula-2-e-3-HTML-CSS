@@ -30,21 +30,27 @@ export default function RecoveryHandler() {
         const accessToken = hash.get('access_token')
         const refreshToken = hash.get('refresh_token')
 
+        async function requireSession(authError?: Error | null) {
+          const { data, error } = await supabase.auth.getSession()
+          if (data.session) return
+
+          throw authError ?? error ?? new Error('Sessao de recuperacao ausente.')
+        }
+
         if (code) {
           const { error } = await supabase.auth.exchangeCodeForSession(code)
-          if (error) throw error
+          await requireSession(error)
         } else if (tokenHash && type) {
           const { error } = await supabase.auth.verifyOtp({ token_hash: tokenHash, type })
-          if (error) throw error
+          await requireSession(error)
         } else if (accessToken && refreshToken) {
           const { error } = await supabase.auth.setSession({
             access_token: accessToken,
             refresh_token: refreshToken,
           })
-          if (error) throw error
+          await requireSession(error)
         } else {
-          const { data, error } = await supabase.auth.getSession()
-          if (error || !data.session) throw error ?? new Error('Sessão de recuperação ausente.')
+          await requireSession()
         }
 
         window.history.replaceState({}, '', url.pathname)
