@@ -49,7 +49,7 @@ export default function LoginForm({ configured, unauthorized }: { configured: bo
     try {
       const supabase = createClient()
       const { error } = await supabase.auth.resetPasswordForEmail(email, {
-        redirectTo: `${window.location.origin}/admin/auth/recovery`,
+        redirectTo: `${window.location.origin}/admin/auth/callback?next=/admin/reset-password`,
       })
       if (error) throw error
       setSuccess(true)
