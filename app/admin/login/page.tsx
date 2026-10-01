@@ -9,7 +9,7 @@ export default async function LoginPage({ searchParams }: { searchParams: Promis
       <p className="admin-kicker">Área restrita</p>
       <h1 id="login-title">Painel do proprietário</h1>
       <p className="admin-muted">Entre com o e-mail previamente autorizado.</p>
-      <LoginForm configured={isSupabaseConfigured} unauthorized={query.error === 'unauthorized'} />
+      <LoginForm configured={isSupabaseConfigured} authError={query.error} />
     </section>
   </main>
 }
