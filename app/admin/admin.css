@@ -128,6 +128,14 @@
 .admin-auth-panel::before { position: absolute; inset: 0 auto 0 0; width: 3px; background: var(--admin-gold); content: ""; box-shadow: 0 0 18px #f5c51899; }
 .admin-auth-logo { display: block; width: 150px; height: auto; margin: 0 auto 28px; filter: drop-shadow(0 12px 20px #000); }
 .admin-auth-form { display: grid; gap: 17px; margin-top: 26px; }
+.admin-mfa-loading { display: flex; align-items: center; justify-content: center; gap: 10px; margin-top: 26px; color: #b7bbb9; font-size: 13px; }
+.admin-mfa-loading svg { width: 18px; color: var(--admin-gold); }
+.admin-mfa-setup { display: grid; gap: 12px; justify-items: center; padding: 18px; border: 1px solid #3b3f3d; background: #090b0a; text-align: center; }
+.admin-mfa-setup img { width: min(220px, 100%); aspect-ratio: 1; border: 10px solid #fff; background: #fff; }
+.admin-mfa-setup p { margin: 0; color: #b7bbb9; font-size: 12px; line-height: 1.5; }
+.admin-mfa-secret { width: 100%; }
+.admin-auth-form .admin-alert.success { display: flex; align-items: center; gap: 9px; }
+.admin-auth-form .admin-alert.success svg { width: 18px; flex: 0 0 auto; }
 .admin-password { position: relative; }
 .admin-password button { position: absolute; top: 50%; right: 4px; display: grid; place-items: center; border: 0; background: transparent; color: #aaa; padding: 8px; transform: translateY(-50%); }
 .admin-password svg { width: 18px; }
