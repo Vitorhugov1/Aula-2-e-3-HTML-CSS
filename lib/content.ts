@@ -11,8 +11,8 @@ export async function getPublicContent(): Promise<{ services: Service[]; setting
       auth: { persistSession: false, autoRefreshToken: false },
     })
     const [servicesResult, settingsResult] = await Promise.all([
-      supabase.from('services').select('*').eq('is_active', true).order('display_order'),
-      supabase.from('site_settings').select('*').eq('id', true).single(),
+      supabase.from('services').select('id,title,description,category,image_path,image_crop_index,image_alt,display_order,is_active').eq('is_active', true).order('display_order'),
+      supabase.from('site_settings').select('whatsapp_number,whatsapp_message,phone,email,address,business_hours,instagram_url,facebook_url').eq('id', true).single(),
     ])
 
     if (servicesResult.error || settingsResult.error || !settingsResult.data) throw new Error('Conteúdo indisponível')

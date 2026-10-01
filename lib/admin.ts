@@ -25,8 +25,8 @@ export async function requireAdmin() {
 export async function getAdminContent() {
   const { supabase, user } = await requireAdmin()
   const [servicesResult, settingsResult] = await Promise.all([
-    supabase.from('services').select('*').order('display_order'),
-    supabase.from('site_settings').select('*').eq('id', true).single(),
+    supabase.from('services').select('id,title,description,category,image_path,image_crop_index,image_alt,display_order,is_active,created_at,updated_at').order('display_order'),
+    supabase.from('site_settings').select('whatsapp_number,whatsapp_message,phone,email,address,business_hours,instagram_url,facebook_url,created_at,updated_at').eq('id', true).single(),
   ])
 
   if (servicesResult.error) throw new Error(servicesResult.error.message)
