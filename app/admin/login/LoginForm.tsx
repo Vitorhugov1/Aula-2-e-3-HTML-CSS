@@ -5,13 +5,17 @@ import { useRouter } from 'next/navigation'
 import { Eye, EyeOff, LoaderCircle, LogIn } from 'lucide-react'
 import { createClient } from '@/lib/supabase/client'
 
-export default function LoginForm({ configured, unauthorized }: { configured: boolean; unauthorized: boolean }) {
+export default function LoginForm({ configured, authError }: { configured: boolean; authError?: string }) {
   const router = useRouter()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [showPassword, setShowPassword] = useState(false)
   const [loading, setLoading] = useState(false)
-  const [message, setMessage] = useState(unauthorized ? 'Esta conta não possui permissão administrativa.' : '')
+  const [message, setMessage] = useState(() => {
+    if (authError === 'unauthorized') return 'Esta conta não possui permissão administrativa.'
+    if (authError === 'callback') return 'O link expirou ou não pôde ser validado. Solicite um novo link.'
+    return ''
+  })
   const [success, setSuccess] = useState(false)
 
   async function login(event: React.FormEvent<HTMLFormElement>) {
@@ -31,8 +35,8 @@ export default function LoginForm({ configured, unauthorized }: { configured: bo
       }
       router.replace('/admin')
       router.refresh()
-    } catch (error) {
-      setMessage(error instanceof Error ? error.message : 'Não foi possível entrar.')
+    } catch {
+      setMessage('E-mail ou senha incorretos, ou acesso indisponível no momento.')
     } finally {
       setLoading(false)
     }
