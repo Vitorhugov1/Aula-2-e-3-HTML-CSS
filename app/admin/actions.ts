@@ -2,16 +2,13 @@
 
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
-import { isSafeHttpUrl, normalizeBrazilianWhatsApp, onlyDigits } from '@/lib/contact-utils.mjs'
+import { normalizeBrazilianWhatsApp, onlyDigits } from '@/lib/contact-utils.mjs'
 import { getAuthorizedAdmin } from '@/lib/admin'
+import { createClient } from '@/lib/supabase/server'
+import { detectImageType, isSafeSocialUrl } from '@/lib/security.mjs'
 import type { ActionResult } from '@/lib/types'
 
 const MAX_FILE_SIZE = 5 * 1024 * 1024
-const ALLOWED_FILES: Record<string, string> = {
-  'image/jpeg': 'jpg',
-  'image/png': 'png',
-  'image/webp': 'webp',
-}
 const UUID_PATTERN = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i
 
 function value(formData: FormData, key: string) {
@@ -56,19 +53,22 @@ export async function saveServiceAction(formData: FormData): Promise<ActionResul
   }
 
   if (file instanceof File && file.size > 0) {
-    const extension = ALLOWED_FILES[file.type]
-    const suppliedExtension = file.name.split('.').pop()?.toLowerCase()
-    const validExtension = suppliedExtension && ['jpg', 'jpeg', 'png', 'webp'].includes(suppliedExtension)
-    const extensionMatchesMime = extension === suppliedExtension || (extension === 'jpg' && suppliedExtension === 'jpeg')
-    if (!extension || !validExtension || !extensionMatchesMime) return fail('Use somente imagens JPG, JPEG, PNG ou WebP com extensão correspondente ao arquivo.')
     if (file.size > MAX_FILE_SIZE) return fail('A imagem deve ter no máximo 5 MB.')
-    uploadedPath = `${user.id}/${crypto.randomUUID()}.${extension}`
+    const signature = new Uint8Array(await file.slice(0, 12).arrayBuffer())
+    const detected = detectImageType(signature)
+    if (!detected || (file.type && file.type !== detected.mime)) {
+      return fail('O conteúdo do arquivo não corresponde a uma imagem JPG, PNG ou WebP válida.')
+    }
+    uploadedPath = `${user.id}/${crypto.randomUUID()}.${detected.extension}`
     const { error } = await supabase.storage.from('service-images').upload(uploadedPath, file, {
-      contentType: file.type,
+      contentType: detected.mime,
       upsert: false,
       cacheControl: '31536000',
     })
-    if (error) return fail(`Não foi possível enviar a imagem: ${error.message}`)
+    if (error) {
+      console.error('Falha no upload de imagem de serviço.', error)
+      return fail('Não foi possível enviar a imagem. Tente novamente.')
+    }
   }
 
   const payload = {
@@ -92,7 +92,8 @@ export async function saveServiceAction(formData: FormData): Promise<ActionResul
 
   if (databaseError) {
     if (uploadedPath) await supabase.storage.from('service-images').remove([uploadedPath])
-    return fail(`Não foi possível salvar: ${databaseError}`)
+    console.error('Falha ao salvar serviço.', databaseError)
+    return fail('Não foi possível salvar o serviço. Tente novamente.')
   }
 
   if (uploadedPath && oldImagePath) await supabase.storage.from('service-images').remove([oldImagePath])
@@ -111,7 +112,10 @@ export async function deleteServiceAction(id: string): Promise<ActionResult> {
   if (readError) return fail('Não foi possível localizar o serviço.')
 
   const { error } = await supabase.from('services').delete().eq('id', id)
-  if (error) return fail(`Não foi possível excluir: ${error.message}`)
+  if (error) {
+    console.error('Falha ao excluir serviço.', error)
+    return fail('Não foi possível excluir o serviço. Tente novamente.')
+  }
   if (data.image_path) await supabase.storage.from('service-images').remove([data.image_path])
 
   revalidatePath('/')
@@ -158,8 +162,9 @@ export async function saveSettingsAction(formData: FormData): Promise<ActionResu
   const phone = phoneInput ? normalizeBrazilianWhatsApp(phoneInput) : ''
   if (!whatsapp) return fail('Informe um WhatsApp brasileiro válido, com DDD.')
   if (phoneInput && !phone) return fail('Informe um telefone comercial brasileiro válido, com DDD.')
-  if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return fail('Informe um e-mail válido.')
-  if (!isSafeHttpUrl(instagram) || !isSafeHttpUrl(facebook)) return fail('Instagram e Facebook devem usar endereços HTTP ou HTTPS válidos.')
+  if (email.length > 254 || (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))) return fail('Informe um e-mail válido.')
+  if (instagram.length > 300 || !isSafeSocialUrl(instagram, 'instagram')) return fail('Informe um endereço HTTPS válido do Instagram.')
+  if (facebook.length > 300 || !isSafeSocialUrl(facebook, 'facebook')) return fail('Informe um endereço HTTPS válido do Facebook.')
 
   const payload = {
     whatsapp_number: whatsapp,
@@ -173,7 +178,10 @@ export async function saveSettingsAction(formData: FormData): Promise<ActionResu
   }
 
   const { error } = await admin.supabase.from('site_settings').update(payload).eq('id', true)
-  if (error) return fail(`Não foi possível salvar as informações: ${error.message}`)
+  if (error) {
+    console.error('Falha ao salvar configurações públicas.', error)
+    return fail('Não foi possível salvar as informações. Tente novamente.')
+  }
 
   revalidatePath('/')
   revalidatePath('/privacidade')
@@ -182,7 +190,7 @@ export async function saveSettingsAction(formData: FormData): Promise<ActionResu
 }
 
 export async function signOutAction() {
-  const admin = await getAuthorizedAdmin()
-  if (admin) await admin.supabase.auth.signOut()
+  const supabase = await createClient()
+  await supabase.auth.signOut()
   redirect('/admin/login')
 }
