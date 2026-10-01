@@ -33,7 +33,7 @@ export default function LoginForm({ configured, authError }: { configured: boole
         await supabase.auth.signOut()
         throw new Error('Esta conta não possui permissão administrativa.')
       }
-      router.replace('/admin')
+      router.replace('/admin/mfa')
       router.refresh()
     } catch {
       setMessage('E-mail ou senha incorretos, ou acesso indisponível no momento.')
