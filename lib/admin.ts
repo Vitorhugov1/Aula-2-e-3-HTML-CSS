@@ -19,6 +19,8 @@ export async function getAuthorizedAdmin() {
 export async function requireAdmin() {
   const admin = await getAuthorizedAdmin()
   if (!admin) redirect('/admin/login?error=unauthorized')
+  const { data: assurance, error } = await admin.supabase.auth.mfa.getAuthenticatorAssuranceLevel()
+  if (error || assurance.currentLevel !== 'aal2') redirect('/admin/mfa')
   return admin
 }
 
