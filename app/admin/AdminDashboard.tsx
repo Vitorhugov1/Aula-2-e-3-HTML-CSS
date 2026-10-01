@@ -1,13 +1,74 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, type ReactNode } from 'react'
 import { useRouter } from 'next/navigation'
-import { ArrowDown, ArrowUp, ExternalLink, Facebook, ImagePlus, Instagram, LoaderCircle, LogOut, Mail, MapPin, MessageCircle, Pencil, Phone, Plus, Save, Trash2, X } from 'lucide-react'
+import { motion, useMotionValue, useReducedMotion, useScroll, useSpring, useTransform } from 'framer-motion'
+import { ArrowDown, ArrowUp, ExternalLink, Eye, Facebook, ImagePlus, Instagram, Layers3, LoaderCircle, LogOut, Mail, MapPin, MessageCircle, Pencil, Phone, Plus, Save, ShieldCheck, Sparkles, Trash2, X, Zap } from 'lucide-react'
 import { deleteServiceAction, moveServiceAction, saveServiceAction, saveSettingsAction, signOutAction } from './actions'
 import { formatBrazilianPhone, normalizeBrazilianWhatsApp, whatsappUrl } from '@/lib/contact-utils.mjs'
 import type { ActionResult, Service, SiteSettings } from '@/lib/types'
 
 type DashboardProps = { services: Service[]; settings: SiteSettings; userEmail: string }
+
+const reveal = {
+  hidden: { opacity: 0, y: 36, rotateX: 5 },
+  visible: { opacity: 1, y: 0, rotateX: 0 },
+}
+
+function MotionSection({ children, className = '', id }: { children: ReactNode; className?: string; id: string }) {
+  const reduceMotion = useReducedMotion()
+  return <motion.section
+    className={`admin-section ${className}`}
+    id={id}
+    initial={reduceMotion ? false : 'hidden'}
+    whileInView="visible"
+    viewport={{ once: true, amount: 0.12 }}
+    variants={reveal}
+    transition={{ duration: .72, ease: [.22, 1, .36, 1] }}
+  >{children}</motion.section>
+}
+
+function TiltSurface({ children, className }: { children: ReactNode; className: string }) {
+  const reduceMotion = useReducedMotion()
+  const rotateX = useMotionValue(0)
+  const rotateY = useMotionValue(0)
+  const smoothX = useSpring(rotateX, { stiffness: 230, damping: 24 })
+  const smoothY = useSpring(rotateY, { stiffness: 230, damping: 24 })
+
+  function tilt(event: React.PointerEvent<HTMLElement>) {
+    if (reduceMotion || event.pointerType === 'touch') return
+    const rect = event.currentTarget.getBoundingClientRect()
+    rotateX.set(((event.clientY - rect.top) / rect.height - .5) * -4)
+    rotateY.set(((event.clientX - rect.left) / rect.width - .5) * 5)
+  }
+
+  function reset() {
+    rotateX.set(0)
+    rotateY.set(0)
+  }
+
+  return <motion.article
+    className={className}
+    style={{ rotateX: smoothX, rotateY: smoothY, transformPerspective: 1000 }}
+    onPointerMove={tilt}
+    onPointerLeave={reset}
+  >{children}</motion.article>
+}
+
+function DashboardAtmosphere() {
+  const reduceMotion = useReducedMotion()
+  const { scrollYProgress } = useScroll()
+  const progress = useSpring(scrollYProgress, { stiffness: 90, damping: 24 })
+  const rigY = useTransform(progress, [0, 1], ['0%', '32%'])
+  const rigRotate = useTransform(progress, [0, 1], [-8, 8])
+
+  return <>
+    <motion.div className="admin-scroll-progress" style={{ scaleX: progress }} />
+    <motion.div className="admin-energy-rig" aria-hidden="true" style={reduceMotion ? undefined : { y: rigY, rotateZ: rigRotate }}>
+      <span /><span /><span />
+    </motion.div>
+  </>
+}
 
 function Feedback({ result }: { result: ActionResult | null }) {
   return result ? <p className={`admin-alert ${result.ok ? 'success' : 'error'}`} role="status">{result.message}</p> : null
@@ -93,11 +154,11 @@ function ServicesPanel({ initialServices, notify }: { initialServices: Service[]
     if (result.ok) router.refresh()
   }
 
-  return <section className="admin-section" id="servicos-admin">
+  return <MotionSection id="servicos-admin">
     <div className="admin-section-heading"><div><p className="admin-kicker">Conteúdo público</p><h2>Serviços e imagens</h2><p className="admin-muted">Altere os cartões exibidos na landing page.</p></div><button className="admin-primary" onClick={() => setEditing('new')}><Plus />Adicionar serviço</button></div>
     {editing === 'new' && <ServiceEditor onDone={refresh} />}
     <div className="admin-service-list">
-      {initialServices.map((service, index) => <article className="admin-service-item" key={service.id}>
+      {initialServices.map((service, index) => <TiltSurface className="admin-service-item" key={service.id}>
         <ServiceImage service={service} />
         <div className="admin-service-copy"><div className="admin-service-title"><h3>{service.title}</h3><span className={service.is_active ? 'active' : 'inactive'}>{service.is_active ? 'Visível' : 'Oculto'}</span></div><p>{service.description}</p><small>{service.category || 'Sem categoria'}</small></div>
         <div className="admin-icon-actions" aria-label={`Ações de ${service.title}`}>
@@ -107,9 +168,9 @@ function ServicesPanel({ initialServices, notify }: { initialServices: Service[]
           <button className="danger" onClick={() => remove(service)} disabled={busy === service.id} title="Excluir" aria-label="Excluir">{busy === service.id ? <LoaderCircle className="admin-spin" /> : <Trash2 />}</button>
         </div>
         {editing === service.id && <div className="admin-editor-wrap"><ServiceEditor service={service} onDone={refresh} /></div>}
-      </article>)}
+      </TiltSurface>)}
     </div>
-  </section>
+  </MotionSection>
 }
 
 function ContactPanel({ settings, notify }: { settings: SiteSettings; notify: (result: ActionResult) => void }) {
@@ -136,7 +197,7 @@ function ContactPanel({ settings, notify }: { settings: SiteSettings; notify: (r
   }
 
   const normalized = normalizeBrazilianWhatsApp(whatsapp)
-  return <section className="admin-section" id="contato-admin">
+  return <MotionSection id="contato-admin">
     <div className="admin-section-heading"><div><p className="admin-kicker">Dados centralizados</p><h2>Informações de contato</h2><p className="admin-muted">Uma alteração atualiza todos os pontos correspondentes do site.</p></div></div>
     <form className="admin-contact-form" onSubmit={submit}>
       <div className="admin-field-row"><label><span><MessageCircle />WhatsApp</span><input name="whatsapp_number" value={whatsapp} onChange={(event) => setWhatsapp(maskPhone(event.target.value))} inputMode="tel" required /></label><label><span><Phone />Telefone comercial</span><input name="phone" defaultValue={formatBrazilianPhone(settings.phone)} onChange={(event) => { event.currentTarget.value = maskPhone(event.currentTarget.value) }} inputMode="tel" /></label></div>
@@ -147,11 +208,12 @@ function ContactPanel({ settings, notify }: { settings: SiteSettings; notify: (r
       <div className="admin-field-row"><label><span><Instagram />Instagram</span><input name="instagram_url" type="url" defaultValue={settings.instagram_url} placeholder="https://instagram.com/..." /></label><label><span><Facebook />Facebook</span><input name="facebook_url" type="url" defaultValue={settings.facebook_url} placeholder="https://facebook.com/..." /></label></div>
       <button className="admin-primary" disabled={loading}>{loading ? <LoaderCircle className="admin-spin" /> : <Save />}Salvar informações</button>
     </form>
-  </section>
+  </MotionSection>
 }
 
 export default function AdminDashboard({ services, settings, userEmail }: DashboardProps) {
   const [feedback, setFeedback] = useState<ActionResult | null>(null)
+  const visibleServices = services.filter((service) => service.is_active).length
   useEffect(() => {
     if (!feedback) return
     const timer = window.setTimeout(() => setFeedback(null), 5000)
@@ -159,11 +221,21 @@ export default function AdminDashboard({ services, settings, userEmail }: Dashbo
   }, [feedback])
 
   return <main className="admin-dashboard">
+    <DashboardAtmosphere />
     <header className="admin-header"><div><img src="/images/logo-wp-transparent.png" alt="WP Soluções Elétricas" /><div><p>Painel administrativo</p><span>{userEmail}</span></div></div><form action={signOutAction}><button className="admin-secondary"><LogOut />Sair</button></form></header>
     <nav className="admin-tabs" aria-label="Seções do painel"><a href="#servicos-admin">Serviços e imagens</a><a href="#contato-admin">Informações de contato</a><a href="#conta-admin">Conta e saída</a></nav>
     {feedback && <div className="admin-global-feedback"><Feedback result={feedback} /></div>}
+    <motion.section className="admin-overview" initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: .65, ease: [.22, 1, .36, 1] }}>
+      <div className="admin-overview-copy"><span><Zap />Central WP</span><h1>Controle com <strong>energia.</strong></h1><p>Gerencie o conteúdo público, os canais de atendimento e a presença digital em um só lugar.</p></div>
+      <div className="admin-metrics" aria-label="Resumo do painel">
+        <div><Layers3 /><strong>{services.length}</strong><span>Serviços</span></div>
+        <div><Eye /><strong>{visibleServices}</strong><span>Visíveis</span></div>
+        <div><ShieldCheck /><strong>Ativo</strong><span>Acesso seguro</span></div>
+      </div>
+      <Sparkles className="admin-overview-mark" aria-hidden="true" />
+    </motion.section>
     <ServicesPanel initialServices={services} notify={setFeedback} />
     <ContactPanel settings={settings} notify={setFeedback} />
-    <section className="admin-section admin-account" id="conta-admin"><div><p className="admin-kicker">Acesso</p><h2>Conta e saída</h2><p className="admin-muted">Administrador conectado: {userEmail}</p></div><form action={signOutAction}><button className="admin-secondary"><LogOut />Sair do painel</button></form></section>
+    <MotionSection className="admin-account" id="conta-admin"><div><p className="admin-kicker">Acesso</p><h2>Conta e saída</h2><p className="admin-muted">Administrador conectado: {userEmail}</p></div><form action={signOutAction}><button className="admin-secondary"><LogOut />Sair do painel</button></form></MotionSection>
   </main>
 }
