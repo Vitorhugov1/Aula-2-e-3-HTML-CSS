@@ -95,7 +95,7 @@ export default function LoginForm({ configured, authError, captchaSiteKey }: { c
   return <form className="admin-auth-form" onSubmit={login}>
     {!configured && <p className="admin-alert error">O painel ainda precisa das variáveis do Supabase na Vercel. Consulte o GUIA-ADMIN.md.</p>}
     <label>E-mail<input type="email" value={email} onChange={(event) => setEmail(event.target.value)} autoComplete="email" required disabled={!configured || loading} /></label>
-    <label>SenhZ<span className="admin-password"><input type={showPassword ? 'text' : 'password'} value={password} onChange={(event) => setPassword(event.target.value)} autoComplete="current-password" required disabled={!configured || loading} /><button type="button" onClick={() => setShowPassword((value) => !value)} aria-label={showPassword ? 'Ocultar senha' : 'Mostrar senha'}>{showPassword ? <EyeOff /> : <Eye />}</button></span></label>
+    <label>Senha<span className="admin-password"><input type={showPassword ? 'text' : 'password'} value={password} onChange={(event) => setPassword(event.target.value)} autoComplete="current-password" required disabled={!configured || loading} /><button type="button" onClick={() => setShowPassword((value) => !value)} aria-label={showPassword ? 'Ocultar senha' : 'Mostrar senha'}>{showPassword ? <EyeOff /> : <Eye />}</button></span></label>
     {captchaSiteKey && <TurnstileWidget siteKey={captchaSiteKey} resetKey={captchaResetKey} onToken={setCaptchaToken} />}
     {message && <p className={`admin-alert ${success ? 'success' : 'error'}`} role="status">{message}</p>}
     <button className="admin-primary" type="submit" disabled={!configured || loading}>{loading ? <LoaderCircle className="admin-spin" /> : <LogIn />}Entrar</button>
