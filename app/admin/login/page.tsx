@@ -9,7 +9,7 @@ export default async function LoginPage({ searchParams }: { searchParams: Promis
       <p className="admin-kicker">Área restrita</p>
       <h1 id="login-title">Painel do proprietário</h1>
       <p className="admin-muted">Entre com o e-mail previamente autorizado.</p>
-      <LoginForm configured={isSupabaseConfigured} authError={query.error} />
+      <LoginForm configured={isSupabaseConfigured} authError={query.error} captchaSiteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY} />
     </section>
   </main>
 }
