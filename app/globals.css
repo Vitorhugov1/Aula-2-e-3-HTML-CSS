@@ -66,17 +66,20 @@ header{padding:16px 0!important}header .shell{gap:20px}header nav a{font-size:12
 .wp-projects{padding:22px 0 14px;background:#080808}
 .projects-wrap{position:relative;margin-top:20px}
 .projects-track{display:flex;gap:24px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none}
-.projects-track>button{flex:0 0 calc((100% - 72px)/4);min-width:0;border:1px solid #454545;border-radius:7px;overflow:hidden;scroll-snap-align:start}
+.projects-track>button{position:relative;flex:0 0 calc((100% - 72px)/4);min-width:0;border:1px solid #454545;border-radius:7px;overflow:hidden;scroll-snap-align:start;text-align:left}
 .projects-track>button:hover{border-color:var(--gold)}
 .project-photo{display:block;position:relative;overflow:hidden;aspect-ratio:4/3;width:100%}
 .project-photo img{position:absolute;width:200%;height:200%;max-width:none}
+.project-photo-real img{inset:0;width:100%;height:100%;object-fit:cover}
+.project-card-copy{position:absolute;z-index:1;inset:auto 0 0;padding:34px 14px 13px;background:linear-gradient(transparent,#000e);pointer-events:none}.project-card-copy small,.project-card-copy strong{display:block}.project-card-copy small{color:var(--gold);font-size:9px;font-weight:800;text-transform:uppercase}.project-card-copy strong{margin-top:3px;color:#fff;font-size:13px;line-height:1.15}
 .carousel-arrow:disabled,.dialog-controls button:disabled{opacity:.3;cursor:default}
 .project-dialog>.project-photo{max-height:65vh;max-width:calc(65vh * 4 / 3);margin:auto}
+.project-dialog>.project-photo-real{aspect-ratio:9/16;max-width:calc(65vh * 9 / 16)}.project-dialog>.project-photo-real img{object-fit:contain;background:#050505}
 .project-counter{display:block;font-size:12px;color:#aaa;text-align:center;margin-top:4px}
 .carousel-arrow{position:absolute;z-index:2;top:50%;transform:translateY(-50%);border:1px solid #aaa;background:#050505cc;width:42px;height:42px;display:grid;place-items:center;border-radius:50%}
 .carousel-arrow svg{width:20px}.previous{left:-24px}.next{right:-24px}.projects-more{text-align:center;margin-top:14px}.projects-more .outline-btn{font-size:11px;padding:8px 18px}
 .project-dialog{position:fixed;inset:0;margin:auto;border:1px solid #444;border-radius:6px;background:#080808;color:white;padding:48px 24px 16px;width:min(800px,92vw);max-height:90vh}
-.project-dialog::backdrop{background:#000e}.project-dialog>.reference-photo{max-height:70vh}.dialog-close{position:absolute;top:12px;right:12px}.dialog-controls{display:flex;align-items:center;justify-content:space-between;margin-top:16px;gap:15px}.dialog-controls button{padding:8px}.dialog-controls p{font-size:16px}
+.project-dialog::backdrop{background:#000e}.project-dialog>.reference-photo{max-height:70vh}.dialog-close{position:absolute;top:12px;right:12px}.dialog-controls{display:flex;align-items:center;justify-content:space-between;margin-top:16px;gap:15px}.dialog-controls button{padding:8px}.dialog-controls p{max-width:560px;font-size:16px;text-align:center}.dialog-controls p strong,.dialog-controls p small{display:block}.dialog-controls p small{margin-top:4px;color:#aaa;font-size:12px;line-height:1.35}
 body:has(dialog[open]){overflow:hidden}
 #depoimentos{padding:12px 0 20px!important;background:#050505!important;border:0!important}
 #depoimentos .eyebrow{margin-bottom:8px}#depoimentos h2{font-size:32px}#depoimentos .mt-6{margin-top:16px}#depoimentos article{padding:16px 18px!important}
